@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ $1 =~ ^(-h|--help)$ ]]; then
+  echo "RipSed - a wrapper around GNU sed that allows recursive replace."
+  echo "Usage: ripsed <your> <silly> <sed> <command> <directory>"
+  echo "where <directory> is a directory under which to search all"
+  echo "non-hidden, non-binary files."
+  echo "Options:"
+  echo "-h | --help: show this page and exit"
+  exit 0
+fi
+args=("$@")
+dir="${args: -1}"
+files=$(find . -not -path '*/.*')
+sedargs="${args[@]:0:${#args[@]}-1}"
+
+findres=$(find . -type f -not -path '*/.*' -exec grep -I -q . {} \; -print)
+
+gsed ${sedargs[@]} ${findres[@]}
+
+
