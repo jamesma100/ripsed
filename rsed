@@ -9,13 +9,23 @@ if [[ $1 =~ ^(-h|--help)$ ]]; then
   echo "-h | --help: show this page and exit"
   exit 0
 fi
+
 args=("$@")
 dir="${args: -1}"
 files=$(find . -not -path '*/.*')
 sedargs="${args[@]:0:${#args[@]}-1}"
 
-findres=$(find . -type f -not -path '*/.*' -exec grep -I -q . {} \; -print)
+first="${args[0]}"
+if [[ $first = "-i" ]]; then
+  sedstr="${args[@]:1:${#args[@]}-2}";
+else
+  sedstr="${args[@]:0:${#args[@]}-1}";
+fi
 
-gsed ${sedargs[@]} ${findres[@]}
+IFS='/' read -r -a search_arr <<< "$sedstr"
+to_search="${search_arr[1]}"
+
+rg_res=$(rg -l $to_search)
+gsed ${sedargs[@]} $rg_res
 
 
