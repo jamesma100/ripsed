@@ -2,7 +2,7 @@
 
 if [[ $1 =~ ^(-h|--help)$ ]]; then
   echo "RipSed - a wrapper around GNU sed that allows recursive replace."
-  echo "Usage: ripsed <your> <silly> <sed> <command> <directory>"
+  echo "Usage: rsed <your> <silly> <sed> <command> <directory>"
   echo "where <directory> is a directory under which to search all"
   echo "non-hidden, non-binary files."
   echo "Options:"
